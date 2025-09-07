@@ -52,7 +52,6 @@ jobs:
         id: meta
         with:
           images: |
-            EliSauder/adcs-issuer
             ghcr.io/EliSauder/adcs-issuer
       - uses: docker/login-action@v3
         with:
