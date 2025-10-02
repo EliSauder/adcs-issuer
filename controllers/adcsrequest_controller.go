@@ -74,6 +74,10 @@ func (r *AdcsRequestReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 		return ctrl.Result{Requeue: true, RequeueAfter: issuer.RetryInterval}, nil
 	}
 
+	if len(caCert) == 0 {
+		log.Info("unable to get caCert from issuer");
+	}
+
 	// Get the original CertificateRequest to set result in
 	cr, err := r.CertificateRequestController.GetCertificateRequest(ctx, req.NamespacedName)
 	if err != nil {
@@ -98,6 +102,8 @@ func (r *AdcsRequestReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 		if caCert != nil {
 			combinedCert = append(cert, caCert...)
 		}
+
+		cr.Status.CA = caCert
 		cr.Status.Certificate = combinedCert
 
 		if log.V(5).Enabled() {
