@@ -32,13 +32,10 @@ type AdcsRequestReconciler struct {
 // +kubebuilder:rbac:groups=adcs.certmanager.csf.nokia.com,resources=adcsrequests/status,verbs=get;update;patch
 
 func (r *AdcsRequestReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	log := ctrl.LoggerFrom(ctx).WithValues("adcsrequest", req.NamespacedName)
+	log := ctrl.LoggerFrom(ctx).WithValues("AdcsRequest", req.NamespacedName)
 
 	// your logic here
-	log.Info("Processing request")
-	if klog.V(3) {
-		klog.Infof("requesting to template: %v", r.IssuerFactory.AdcsTemplateName)
-	}
+	log.Info("requesting to template: %v", r.IssuerFactory.AdcsTemplateName)
 
 	// Fetch the AdcsRequest resource being reconciled
 	ar := new(api.AdcsRequest)
@@ -52,7 +49,7 @@ func (r *AdcsRequestReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 
 	}
 
-	log.V(3).Info("Running request", "Processing request", req.Name)
+	log.Info("Running request", "request", req.Name)
 
 	// Find the issuer
 	issuer, err := r.IssuerFactory.GetIssuer(ctx, ar.Spec.IssuerRef, ar.Namespace)
@@ -61,9 +58,7 @@ func (r *AdcsRequestReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 		return ctrl.Result{}, err
 	}
 
-	if log.V(3).Enabled() {
-		log.V(3).Info("Running request", "template", issuer.AdcsTemplateName)
-	}
+	log.Info("Running request", "template", issuer.AdcsTemplateName)
 
 	cert, caCert, err := issuer.Issue(ctx, ar)
 	if err != nil {
