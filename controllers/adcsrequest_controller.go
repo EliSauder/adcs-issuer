@@ -6,7 +6,6 @@ import (
 
 	"github.com/go-logr/logr"
 	core "k8s.io/api/core/v1"
-	"k8s.io/klog"
 
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
