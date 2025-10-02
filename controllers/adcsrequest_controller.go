@@ -34,7 +34,7 @@ func (r *AdcsRequestReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 	log := ctrl.LoggerFrom(ctx).WithValues("AdcsRequest", req.NamespacedName)
 
 	// your logic here
-	log.Info("requesting to template: %v", r.IssuerFactory.AdcsTemplateName)
+	log.Info("requesting to template", "template", r.IssuerFactory.AdcsTemplateName)
 
 	// Fetch the AdcsRequest resource being reconciled
 	ar := new(api.AdcsRequest)
