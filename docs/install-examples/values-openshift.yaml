@@ -3,9 +3,19 @@
 crd:
   install: true
 
+
+cert-manager:
+  enabled: false
+
+cert-manager-1-18:
+  enabled: false
+
+cert-manager-1-17:
+  enabled: false
+
 openshift:
   enabled: true  
-
+  anyuid: false
 # @section ADCS Issuer Controller Manager
 controllerManager:
 
@@ -14,7 +24,7 @@ controllerManager:
   manager:
     image:
       repository: djkormo/adcs-issuer  # The repository for the ADCS Issuer Docker image.
-      tag: 2.2.0                       # The tag for the ADCS Issuer Docker image.
+      tag: 2.2.1                       # The tag for the ADCS Issuer Docker image.
     
     # @section Resources
     # Resource requests and limits for the ADCS Issuer container.
