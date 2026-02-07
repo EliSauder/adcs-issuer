@@ -22,10 +22,19 @@ ADCS Issuer plugin for cert-manager.
 
 Kubernetes: `>=1.27.0-0`
 
+| Repository | Name | Version |
+|------------|------|---------|
+| https://charts.jetstack.io | cert-manager(cert-manager) | ~v1.19.3 |
+| https://charts.jetstack.io | cert-manager-1-18(cert-manager) | ~v1.18.5 |
+| https://charts.jetstack.io | cert-manager-1-17(cert-manager) | ~v1.17.4 |
+
 ## Values
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| cert-manager-1-17.enabled | bool | `false` |  |
+| cert-manager-1-18.enabled | bool | `false` |  |
+| cert-manager.enabled | bool | `false` |  |
 | controllerManager.affinity.nodeAffinity | object | `{}` |  |
 | controllerManager.affinity.podAffinity | object | `{}` |  |
 | controllerManager.affinity.podAntiAffinity | object | `{}` |  |
@@ -41,8 +50,9 @@ Kubernetes: `>=1.27.0-0`
 | controllerManager.environment.KUBERNETES_CLUSTER_DOMAIN | string | `"cluster.local"` |  |
 | controllerManager.kerberosAuthentication.enabled | bool | `false` |  |
 | controllerManager.kerberosAuthentication.krb5Config | string | `"[libdefaults]\n  default_realm = EXAMPLE.COM\n  dns_lookup_kdc = true\n\n[realms]\n  EXAMPLE.COM  = {\n    kdc = dc01.example.com\n  }\n\n[domain_realm]\n  .example.com = EXAMPLE.COM\n  example.com = EXAMPLE.COM\n"` |  |
+| controllerManager.manager.image.imagePullPolicy | string | `"Always"` |  |
 | controllerManager.manager.image.repository | string | `"djkormo/adcs-issuer"` |  |
-| controllerManager.manager.image.tag | string | `"2.2.0"` |  |
+| controllerManager.manager.image.tag | string | `"2.2.1"` |  |
 | controllerManager.manager.livenessProbe.httpGet.path | string | `"/healthz"` |  |
 | controllerManager.manager.livenessProbe.httpGet.port | int | `8081` |  |
 | controllerManager.manager.livenessProbe.httpGet.scheme | string | `"HTTP"` |  |
@@ -74,6 +84,8 @@ Kubernetes: `>=1.27.0-0`
 | metricsService.serviceMonitor.scheme | string | `"http"` |  |
 | metricsService.type | string | `"ClusterIP"` |  |
 | nodeSelector | object | `{}` |  |
+| openshift.anyuid | bool | `false` |  |
+| openshift.enabled | bool | `false` |  |
 | simulator.affinity.nodeAffinity | object | `{}` |  |
 | simulator.affinity.podAffinity | object | `{}` |  |
 | simulator.affinity.podAntiAffinity | object | `{}` |  |
@@ -94,6 +106,7 @@ Kubernetes: `>=1.27.0-0`
 | simulator.environment.ENABLE_DEBUG | string | `"false"` |  |
 | simulator.exampleCertificate.enabled | bool | `true` |  |
 | simulator.exampleCertificate.name | string | `"adcs-sim-certificate"` |  |
+| simulator.image.imagePullPolicy | string | `"Always"` |  |
 | simulator.image.repository | string | `"djkormo/adcs-sim"` |  |
 | simulator.image.tag | string | `"0.0.6"` |  |
 | simulator.issuerGroup | string | `"cert-manager.io"` |  |

@@ -3,6 +3,23 @@
 crd:
   install: true
 
+
+cert-manager:
+  enabled: false
+  namespace: cert-manager
+
+cert-manager-1-18:
+  enabled: false
+
+cert-manager-1-17:
+  enabled: false
+
+
+
+openshift:
+  enabled: false  
+  anyuid: false
+
 # @section ADCS Issuer Controller Manager
 controllerManager:
 
@@ -11,7 +28,8 @@ controllerManager:
   manager:
     image:
       repository: djkormo/adcs-issuer  # The repository for the ADCS Issuer Docker image.
-      tag: 2.2.0                       # The tag for the ADCS Issuer Docker image.
+      tag: 2.2.1                       # The tag for the ADCS Issuer Docker image.
+      imagePullPolicy: Always          # The image pull policy.
     
     # @section Resources
     # Resource requests and limits for the ADCS Issuer container.
@@ -182,6 +200,7 @@ simulator:
   image:
     repository: djkormo/adcs-sim              # The repository for the ADCS Simulator Docker image.
     tag: 0.0.6                                # The tag for the ADCS Simulator Docker image.
+    imagePullPolicy: Always          # The image pull policy.
 
   # @section Environment Variables
   # Environment variables for the simulator.
@@ -281,5 +300,5 @@ simulator:
   # @section Example Certificate
   # Configuration for an example certificate used by the simulator.
   exampleCertificate:
-    enabled: true                             # Enable or disable the example certificate.
+    enabled: false                            # Enable or disable the example certificate.
     name: adcs-sim-certificate                # Name of the example certificate.
