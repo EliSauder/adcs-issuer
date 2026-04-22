@@ -46,4 +46,35 @@ entries:
     urls:
     - https://github.com/EliSauder/adcs-issuer/releases/download/adcs-issuer-3.0.3-rc1/adcs-issuer-3.0.3-rc1.tgz
     version: 3.0.3-rc1
-generated: "2025-09-08T03:45:42.748536169Z"
+  - apiVersion: v2
+    appVersion: 2.2.1
+    created: "2026-04-22T17:23:11.267779602Z"
+    dependencies:
+    - alias: cert-manager
+      condition: cert-manager.enabled
+      name: cert-manager
+      repository: https://charts.jetstack.io
+      version: ~v1.19.3
+    - alias: cert-manager-1-18
+      condition: cert-manager-1-18.enabled
+      name: cert-manager
+      repository: https://charts.jetstack.io
+      version: ~v1.18.5
+    - alias: cert-manager-1-17
+      condition: cert-manager-1-17.enabled
+      name: cert-manager
+      repository: https://charts.jetstack.io
+      version: ~v1.17.4
+    description: ADCS Issuer plugin for cert-manager.
+    digest: 7708969535a3a5607da947f26ea95d228103fc04caf7c811ce5b50ab8b81b950
+    home: https://github.com/djkormo/adcs-issuer
+    kubeVersion: '>=1.27.0-0'
+    name: adcs-issuer
+    sources:
+    - https://github.com/djkormo/adcs-issuer
+    - https://djkormo.github.io/adcs-issuer/
+    type: application
+    urls:
+    - https://github.com/EliSauder/adcs-issuer/releases/download/adcs-issuer-2.2.1/adcs-issuer-2.2.1.tgz
+    version: 2.2.1
+generated: "2026-04-22T17:23:11.267794092Z"
