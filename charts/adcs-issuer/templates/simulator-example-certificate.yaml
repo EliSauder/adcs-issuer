@@ -1,4 +1,4 @@
-{{- if .Values.simulator.exampleCertificate.enabled }}
+{{- if and .Values.simulator.enabled .Values.simulator.exampleCertificate.enabled }}
 
 apiVersion: cert-manager.io/v1
 kind: Certificate
