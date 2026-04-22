@@ -45,3 +45,5 @@ minikube_downloads/
 dist/
 
 kubeconfig
+all-*.yaml
+Chart.lock

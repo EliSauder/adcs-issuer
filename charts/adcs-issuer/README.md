@@ -7,8 +7,8 @@ ADCS Issuer plugin for cert-manager.
 ### Chart Details
 
 - **Chart Name:** adcs-issuer
-- **Version:** ![Version: 2.1.2](https://img.shields.io/badge/Version-2.1.2-informational?style=flat-square)
-- **App Version:** ![AppVersion: 2.1.2](https://img.shields.io/badge/AppVersion-2.1.2-informational?style=flat-square)
+- **Version:** ![Version: 2.2.0](https://img.shields.io/badge/Version-2.2.0-informational?style=flat-square)
+- **App Version:** ![AppVersion: 2.2.0](https://img.shields.io/badge/AppVersion-2.2.0-informational?style=flat-square)
 - **Chart Type:** ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
 **Homepage:** <https://github.com/djkormo/adcs-issuer>
@@ -20,16 +20,21 @@ ADCS Issuer plugin for cert-manager.
 
 ## Requirements
 
-Kubernetes: `>=1.16.0`
+Kubernetes: `>=1.27.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.jetstack.io | cert-manager | >=1.9 |
+| https://charts.jetstack.io | cert-manager(cert-manager) | ~v1.19.3 |
+| https://charts.jetstack.io | cert-manager-1-18(cert-manager) | ~v1.18.5 |
+| https://charts.jetstack.io | cert-manager-1-17(cert-manager) | ~v1.17.4 |
 
 ## Values
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| cert-manager-1-17.enabled | bool | `false` |  |
+| cert-manager-1-18.enabled | bool | `false` |  |
+| cert-manager.enabled | bool | `false` |  |
 | controllerManager.affinity.nodeAffinity | object | `{}` |  |
 | controllerManager.affinity.podAffinity | object | `{}` |  |
 | controllerManager.affinity.podAntiAffinity | object | `{}` |  |
@@ -43,8 +48,11 @@ Kubernetes: `>=1.16.0`
 | controllerManager.environment.ENABLE_DEBUG | string | `"false"` |  |
 | controllerManager.environment.ENABLE_WEBHOOKS | string | `"false"` |  |
 | controllerManager.environment.KUBERNETES_CLUSTER_DOMAIN | string | `"cluster.local"` |  |
+| controllerManager.kerberosAuthentication.enabled | bool | `false` |  |
+| controllerManager.kerberosAuthentication.krb5Config | string | `"[libdefaults]\n  default_realm = EXAMPLE.COM\n  dns_lookup_kdc = true\n\n[realms]\n  EXAMPLE.COM  = {\n    kdc = dc01.example.com\n  }\n\n[domain_realm]\n  .example.com = EXAMPLE.COM\n  example.com = EXAMPLE.COM\n"` |  |
+| controllerManager.manager.image.imagePullPolicy | string | `"Always"` |  |
 | controllerManager.manager.image.repository | string | `"djkormo/adcs-issuer"` |  |
-| controllerManager.manager.image.tag | string | `"2.1.2"` |  |
+| controllerManager.manager.image.tag | string | `"2.2.1"` |  |
 | controllerManager.manager.livenessProbe.httpGet.path | string | `"/healthz"` |  |
 | controllerManager.manager.livenessProbe.httpGet.port | int | `8081` |  |
 | controllerManager.manager.livenessProbe.httpGet.scheme | string | `"HTTP"` |  |
@@ -59,7 +67,7 @@ Kubernetes: `>=1.16.0`
 | controllerManager.manager.resources.limits.cpu | string | `"100m"` |  |
 | controllerManager.manager.resources.limits.memory | string | `"500Mi"` |  |
 | controllerManager.manager.resources.requests.cpu | string | `"100m"` |  |
-| controllerManager.manager.resources.requests.memory | string | `"100Mi"` |  |
+| controllerManager.manager.resources.requests.memory | string | `"120Mi"` |  |
 | controllerManager.rbac.certManagerNamespace | string | `"cert-manager"` |  |
 | controllerManager.rbac.certManagerServiceAccountName | string | `"cert-manager"` |  |
 | controllerManager.rbac.enabled | bool | `true` |  |
@@ -68,17 +76,23 @@ Kubernetes: `>=1.16.0`
 | controllerManager.securityContext.runAsUser | int | `1000` |  |
 | crd.install | bool | `true` |  |
 | metricsService.enabled | bool | `true` |  |
-| metricsService.ports[0].name | string | `"https"` |  |
-| metricsService.ports[0].port | int | `8443` |  |
-| metricsService.ports[0].targetPort | string | `"https"` |  |
+| metricsService.nameOverride | string | `nil` |  |
+| metricsService.ports[0].name | string | `"http"` |  |
+| metricsService.ports[0].port | int | `8080` |  |
+| metricsService.ports[0].targetPort | string | `"metrics"` |  |
+| metricsService.serviceMonitor.enabled | bool | `true` |  |
+| metricsService.serviceMonitor.scheme | string | `"http"` |  |
 | metricsService.type | string | `"ClusterIP"` |  |
 | nodeSelector | object | `{}` |  |
+| openshift.anyuid | bool | `false` |  |
+| openshift.enabled | bool | `false` |  |
 | simulator.affinity.nodeAffinity | object | `{}` |  |
 | simulator.affinity.podAffinity | object | `{}` |  |
 | simulator.affinity.podAntiAffinity | object | `{}` |  |
 | simulator.arguments.dns | string | `"adcs-sim-service.adcs-issuer.svc,adcs2.example.com"` |  |
 | simulator.arguments.ips | string | `"10.10.10.1,10.10.10.2"` |  |
 | simulator.arguments.port | int | `8443` |  |
+| simulator.caBundle | string | `""` |  |
 | simulator.certificateDuration | string | `"2160h"` |  |
 | simulator.certificateRenewBefore | string | `"360h"` |  |
 | simulator.clusterIssuserName | string | `"adcs-sim-adcsclusterissuer"` |  |
@@ -92,6 +106,7 @@ Kubernetes: `>=1.16.0`
 | simulator.environment.ENABLE_DEBUG | string | `"false"` |  |
 | simulator.exampleCertificate.enabled | bool | `true` |  |
 | simulator.exampleCertificate.name | string | `"adcs-sim-certificate"` |  |
+| simulator.image.imagePullPolicy | string | `"Always"` |  |
 | simulator.image.repository | string | `"djkormo/adcs-sim"` |  |
 | simulator.image.tag | string | `"0.0.6"` |  |
 | simulator.issuerGroup | string | `"cert-manager.io"` |  |
